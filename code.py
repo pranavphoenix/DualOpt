@@ -128,7 +128,7 @@ for epoch in range(100):  # loop over the dataset multiple times
     testtime.append(time.time() - t1)
 
     if float(correct_1/c) >= float(max(top1)):
-        PATH = 'modelname6.pth'
+        PATH = 'modelname.pth'
         torch.save(model.state_dict(), PATH)
         print(1)
 
