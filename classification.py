@@ -1,3 +1,6 @@
+import time
+import torch.nn as nn
+
 criterion = nn.CrossEntropyLoss()
 scaler = torch.cuda.amp.GradScaler()
 top1 = []
