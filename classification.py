@@ -1,4 +1,4 @@
-import time
+import torch, time
 import torch.nn as nn
 
 criterion = nn.CrossEntropyLoss()
