@@ -24,7 +24,7 @@ def post_train(model, trainloader, testloader, device, PATH, top1, top5, trainti
 
       t0 = time.time()
 
-      train(model, trainloader, criterion, scaler, optimizer, epoch)
+      train(model, trainloader, device, criterion, scaler, optimizer, epoch)
 
       correct_1=0
       correct_5=0
@@ -53,7 +53,7 @@ def post_train(model, trainloader, testloader, device, PATH, top1, top5, trainti
           counter = 0
 
 
-def train(model, trainloader, criterion, scaler, optimizer, epoch, device):
+def train(model, trainloader, device, criterion, scaler, optimizer, epoch):
   epoch_accuracy = 0
   epoch_loss = 0
   
@@ -108,7 +108,7 @@ def classification(model, trainloader, testloader, device, PATH, top1, top5, tra
 
       t0 = time.time()
 
-      train(model, trainloader, criterion, scaler, optimizer, epoch, device)
+      train(model, trainloader, device, criterion, scaler, optimizer, epoch)
 
       correct_1=0
       correct_5=0
@@ -149,7 +149,7 @@ def classification(model, trainloader, testloader, device, PATH, top1, top5, tra
 
       t0 = time.time()
 
-      train(model, trainloader, criterion, scaler, optimizer, epoch)
+      train(model, trainloader, device, criterion, scaler, optimizer, epoch)
 
       correct_1=0
       correct_5=0
