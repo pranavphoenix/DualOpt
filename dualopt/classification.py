@@ -53,10 +53,10 @@ def post_train(model, trainloader, testloader, device, PATH, top1, top5, trainti
           counter = 0
 
 
-def train(model, trainloader, criterion, scaler, optimizer, epoch):
+def train(model, trainloader, criterion, scaler, optimizer, epoch, device):
   epoch_accuracy = 0
   epoch_loss = 0
-  running_loss = 0.0
+  
   model.train()
   with tqdm(trainloader, unit="batch") as tepoch:
           tepoch.set_description(f"Epoch {epoch+1}")
@@ -84,8 +84,8 @@ def classification(model, trainloader, testloader, device, PATH, top1, top5, tra
 
   scaler = torch.cuda.amp.GradScaler()
 
-  top1_acc = Accuracy(task="multiclass", num_classes=10).to(device)
-  top5_acc = Accuracy(task="multiclass", num_classes=10, top_k=5).to(device)
+  top1_acc = Accuracy(task="multiclass", num_classes=num_classes).to(device)
+  top5_acc = Accuracy(task="multiclass", num_classes=num_classes, top_k=5).to(device)
 
 
   counter = 0
@@ -108,7 +108,7 @@ def classification(model, trainloader, testloader, device, PATH, top1, top5, tra
 
       t0 = time.time()
 
-      train(model, trainloader, criterion, scaler, optimizer, epoch)
+      train(model, trainloader, criterion, scaler, optimizer, epoch, device)
 
       correct_1=0
       correct_5=0
