@@ -7,12 +7,12 @@ from torchmetrics.classification import Accuracy
 from lion_pytorch import Lion
 
 
-def post_train(model, trainloader, testloader, device, PATH, top1, top5, traintime, testtime, num_classes, opt1 = 'adamw', pretrained = False, set_counter = 20):
+def post_train(model, trainloader, testloader, device, PATH, top1, top5, traintime, testtime, num_classes, set_counter = 20):
   optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
   print('Post-training with SGD')
 
-  top1_acc = Accuracy(task="multiclass", num_classes=10).to(device)
-  top5_acc = Accuracy(task="multiclass", num_classes=10, top_k=5).to(device)
+  top1_acc = Accuracy(task="multiclass", num_classes=num_classes).to(device)
+  top5_acc = Accuracy(task="multiclass", num_classes=num_classes, top_k=5).to(device)
 
   criterion = nn.CrossEntropyLoss()
 
@@ -78,7 +78,7 @@ def train(model, trainloader, device, criterion, scaler, optimizer, epoch):
             tepoch.set_postfix_str(f" loss : {epoch_loss:.4f} - acc: {epoch_accuracy:.4f}" )
 
 
-def classification(model, trainloader, testloader, device, PATH, top1, top5, traintime, testtime, num_classes, opt1 = 'adamw', pretrained = False, set_counter = 20):
+def classification(model, trainloader, testloader, device, PATH, top1, top5, traintime, testtime, num_classes, opt1 = 'adamw', set_counter = 20):
 
   criterion = nn.CrossEntropyLoss()
 
@@ -98,10 +98,6 @@ def classification(model, trainloader, testloader, device, PATH, top1, top5, tra
     optimizer = optim.AdamW(model.parameters(), lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0.01, amsgrad=False)
     print("Training with AdamW")
 
-  # load saved model
-  if pretrained:
-    PATH = 'model.pth'
-    model.load_state_dict(torch.load(PATH))
 
   epoch = 0
   while counter < set_counter:   #Counter sets the number of epochs of non improvement before stopping
