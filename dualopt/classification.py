@@ -177,3 +177,25 @@ def classification(model, trainloader, testloader, device, PATH, top1, top5, tra
       
 
 
+def test(model, testloader, device, num_classes):
+
+  top1_acc = Accuracy(task="multiclass", num_classes=num_classes).to(device)
+  top5_acc = Accuracy(task="multiclass", num_classes=num_classes, top_k=5).to(device)
+
+  correct_1=0
+  correct_5=0
+  c = 0
+  model.eval()
+
+  t1 = time.time()
+  with torch.no_grad():
+      for data in testloader:
+          images, labels = data[0].to(device), data[1].to(device)
+          outputs = model(images)
+          correct_1 += top1_acc(outputs, labels)
+          correct_5 += top5_acc(outputs, labels)
+          c += 1
+      
+  print(f"Top 1: {correct_1*100/c:.2f} - Top 5: {correct_5*100/c:.2f} - Test Time: {time.time() - t1:.2f}\n")
+
+  print('Finished Evaluation')
